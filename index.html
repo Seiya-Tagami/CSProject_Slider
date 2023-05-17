@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <!-- 
+    ToDo:
+    全ての要素を非表示にしてください。
+    その後、querySelectorAllを用いて、5つの箱の要素をHTMLのノードのリストとして取得してください。
+    次にsliderShowというコンテナを作成し、mainコンテナとextraコンテナを配置してください。
+    最後にmainコンテナの中に1つ目の箱をappendしてみましょう。 
+-->
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <div id="target" class="m-5">
+    <!-- 全ての要素を非表示にしてください。 -->
+    <div class="col-12 slider-data d-none">
+      <div class="box slider-item bg-primary"></div>
+      <div class="box slider-item bg-secondary"></div>
+      <div class="box slider-item bg-success"></div>
+      <div class="box slider-item bg-warning"></div>
+      <div class="box slider-item bg-danger"></div>
+    </div>
+  </div>
+
+  <script src="./main.js"></script>
+</html>
