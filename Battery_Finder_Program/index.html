@@ -8,9 +8,72 @@
     <script src="./main.js" defer></script>
     <title>Battery Finder Program</title>
   </head>
-  <body>
-    <div class="container mx-auto px-4 bg-slate-400">
-      <h1 class="text-3xl font-bold underline">Hello world!</h1>
-    </div>
+  <body class="container mx-auto px-4">
+    <header class="text-3xl font-bold p-4 text-white bg-zinc-600 text-center">
+      <h1>Battery Finder Program</h1>
+    </header>
+    <main class="flex flex-col gap-6 px-8 py-12 bg-zinc-500">
+      <div>
+        <label for="brand" class="block mb-2 text-2xl font-medium text-white">step1: Select your brand</label>
+        <select id="brand" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/5 p-4">
+          <option>Cakon</option>
+          <option>Go MN</option>
+          <option>VANY</option>
+        </select>
+      </div>
+      <div>
+        <label for="model" class="block mb-2 text-2xl font-medium text-white">step2: Select your Model</label>
+        <select id="model" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/5 p-4">
+          <option>UIK 110C</option>
+          <option>UIK 210C</option>
+          <option>UIK 230C</option>
+          <option>UIK 250C</option>
+          <option>UIK 270C</option>
+        </select>
+      </div>
+      <div>
+        <label for="power" class="block mb-2 text-2xl font-medium text-white">step3: Input Accessory Power Consumption</label>
+        <input
+          id="power"
+          type="number"
+          value="50"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/6 px-6 py-4"
+        />
+      </div>
+      <div>
+        <p class="block mb-2 text-2xl font-medium text-white">step4: Choose your battery</p>
+        <div class="w-full w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+          <div class="flex items-center justify-between mb-4">
+            <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest Batteries</h5>
+          </div>
+          <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+              <li class="py-3 sm:py-4">
+                <div class="flex items-center space-x-4">
+                  <div class="flex-shrink-0">
+                    <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Neil image" />
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-md font-medium text-gray-900 truncate">IOP-E140</p>
+                  </div>
+                  <div class="inline-flex items-center text-base font-semibold text-gray-900">Estimate 1.6 hours</div>
+                </div>
+              </li>
+              <li class="py-3 sm:py-4">
+                <div class="flex items-center space-x-4">
+                  <div class="flex-shrink-0">
+                    <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="Bonnie image" />
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-md font-medium text-gray-900 truncate">IOP-E140</p>
+                  </div>
+                  <div class="inline-flex items-center text-base font-semibold text-gray-900">Estimate 1.6 hours</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
   </body>
 </html>
