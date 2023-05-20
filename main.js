@@ -1,80 +1,273 @@
 'use strict';
 
-const target = document.getElementById('target');
-const sliderItems = document.querySelectorAll('#target .slider-data .slider-item');
+const batteries = [
+  {
+    batteryName: 'WKL-78',
+    capacityAh: 2.3,
+    voltage: 14.4,
+    maxDraw: 3.2,
+    endVoltage: 10,
+  },
+  {
+    batteryName: 'WKL-140',
+    capacityAh: 4.5,
+    voltage: 14.4,
+    maxDraw: 9.2,
+    endVoltage: 5,
+  },
+  {
+    batteryName: 'Wmacro-78',
+    capacityAh: 2.5,
+    voltage: 14.5,
+    maxDraw: 10,
+    endVoltage: 5,
+  },
+  {
+    batteryName: 'Wmacro-140',
+    capacityAh: 3.6,
+    voltage: 14.4,
+    maxDraw: 14,
+    endVoltage: 5,
+  },
+  {
+    batteryName: 'IOP-E78',
+    capacityAh: 6.6,
+    voltage: 14.4,
+    maxDraw: 10.5,
+    endVoltage: 8,
+  },
+  {
+    batteryName: 'IOP-E140',
+    capacityAh: 9.9,
+    voltage: 14.4,
+    maxDraw: 14,
+    endVoltage: 10,
+  },
+  {
+    batteryName: 'IOP-E188',
+    capacityAh: 13.2,
+    voltage: 14.4,
+    maxDraw: 14,
+    endVoltage: 11,
+  },
+  {
+    batteryName: 'RYN-C65',
+    capacityAh: 4.9,
+    voltage: 14.8,
+    maxDraw: 4.9,
+    endVoltage: 11,
+  },
+  {
+    batteryName: 'RYN-C85',
+    capacityAh: 6.3,
+    voltage: 14.4,
+    maxDraw: 6.3,
+    endVoltage: 12,
+  },
+  {
+    batteryName: 'RYN-C140',
+    capacityAh: 9.8,
+    voltage: 14.8,
+    maxDraw: 10,
+    endVoltage: 12,
+  },
+  {
+    batteryName: 'RYN-C290',
+    capacityAh: 19.8,
+    voltage: 14.4,
+    maxDraw: 14,
+    endVoltage: 12,
+  },
+];
 
-const sliderShow = document.createElement('div');
-const mainContainer = document.createElement('div');
-const extraContainer = document.createElement('div');
+const cameras = [
+  {
+    brand: 'Cakon',
+    model: 'ABC 3000M',
+    powerConsumptionWh: 35.5,
+  },
+  {
+    brand: 'Cakon',
+    model: 'ABC 5000M',
+    powerConsumptionWh: 37.2,
+  },
+  {
+    brand: 'Cakon',
+    model: 'ABC 7000M',
+    powerConsumptionWh: 39.7,
+  },
+  {
+    brand: 'Cakon',
+    model: 'ABC 9000M',
+    powerConsumptionWh: 10.9,
+  },
+  {
+    brand: 'Cakon',
+    model: 'ABC 9900M',
+    powerConsumptionWh: 15.7,
+  },
+  {
+    brand: 'Go MN',
+    model: 'UIK 110C',
+    powerConsumptionWh: 62.3,
+  },
+  {
+    brand: 'Go MN',
+    model: 'UIK 210C',
+    powerConsumptionWh: 64.3,
+  },
+  {
+    brand: 'Go MN',
+    model: 'UIK 230C',
+    powerConsumptionWh: 26.3,
+  },
+  {
+    brand: 'Go MN',
+    model: 'UIK 250C',
+    powerConsumptionWh: 15.3,
+  },
+  {
+    brand: 'Go MN',
+    model: 'UIK 270C',
+    powerConsumptionWh: 20.3,
+  },
+  {
+    brand: 'VANY',
+    model: 'CEV 1100P',
+    powerConsumptionWh: 22,
+  },
+  {
+    brand: 'VANY',
+    model: 'CEV 1300P',
+    powerConsumptionWh: 23,
+  },
+  {
+    brand: 'VANY',
+    model: 'CEV 1500P',
+    powerConsumptionWh: 24,
+  },
+  {
+    brand: 'VANY',
+    model: 'CEV 1700P',
+    powerConsumptionWh: 25,
+  },
+  {
+    brand: 'VANY',
+    model: 'CEV 1900P',
+    powerConsumptionWh: 26,
+  },
+];
 
-sliderShow.classList.add('col-12', 'd-flex', 'flex-nowrap', 'overflow-hidden');
-mainContainer.classList.add('main', 'full-width');
-extraContainer.classList.add('extra', 'full-width');
+const brand = document.getElementById('js-brand');
+const model = document.getElementById('js-model');
+const power = document.getElementById('js-power');
+const batteriesContainer = document.getElementById('js-batteries');
 
-mainContainer.append(sliderItems[0]);
+let arrangedCameras = [];
+let arrangedBatteries = [];
 
-sliderShow.append(mainContainer);
-sliderShow.append(extraContainer);
-target.append(sliderShow);
+let selectedModel = {};
 
-const controls = document.createElement('div');
-controls.classList.add('offset-5', 'mt-2');
+let cameraPower;
+let accessoryPower;
+let totalConsumptionPower;
 
-const leftBtn = document.createElement('button');
-leftBtn.classList.add('btn', 'btn-light');
-leftBtn.innerHTML = '<';
+/**
+ * brandの値から、modelの選択肢を生成・変更する
+ * @param {string} brand
+ */
+function createModelFieldFromBrand(brand) {
+  model.innerHTML = '';
+  arrangedCameras = cameras.filter((camera) => camera.brand === brand);
+  arrangedCameras.forEach((camera) => {
+    const optionEl = document.createElement('option');
+    optionEl.innerText = camera.model;
+    model.append(optionEl);
+  });
+  cameraPower = arrangedCameras[0].powerConsumptionWh;
+  totalConsumptionPower = accessoryPower + cameraPower;
 
-const rightBtn = document.createElement('button');
-rightBtn.classList.add('btn', 'btn-light');
-rightBtn.innerHTML = '>';
-
-controls.append(leftBtn);
-controls.append(rightBtn);
-target.append(controls);
-
-mainContainer.setAttribute('data-index', '0');
-
-function slideJump(steps, animationType) {
-  let index = parseInt(mainContainer.getAttribute('data-index'));
-  let currentElement = sliderItems.item(index);
-
-  index += steps;
-  console.log(index);
-
-  if (index < 0) index = sliderItems.length - 1;
-  else if (index >= sliderItems.length) index = 0;
-
-  let nextElement = sliderItems.item(index);
-
-  mainContainer.setAttribute('data-index', index.toString());
-  animateMain(currentElement, nextElement, animationType);
+  arrangedBatteries = arrangeBatteries(totalConsumptionPower);
+  createBatteriesView(arrangedBatteries);
 }
 
-function animateMain(currentElement, nextElement, animationType) {
-  extraContainer.innerHTML = '';
-  extraContainer.append(currentElement);
+/**
+ * batteryのviewを生成・変更する
+ * @param {Array} arrangedBatteries
+ */
+function createBatteriesView(arrangedBatteries) {
+  batteriesContainer.innerHTML = '';
+  arrangedBatteries.forEach((battery) => {
+    let estimatedTime = Math.floor((battery.voltage * battery.capacityAh * 10) / totalConsumptionPower) / 10;
 
-  mainContainer.innerHTML = '';
-  mainContainer.append(nextElement);
+    const liEl = document.createElement('li');
+    liEl.classList.add('py-3', 'sm:py-4');
 
-  mainContainer.classList.add('expand-animation');
-  extraContainer.classList.add('deplete-animation');
+    const divEl_1 = document.createElement('div');
+    divEl_1.classList.add('flex', 'items-center', 'space-x-4');
 
-  if (animationType === 'right') {
-    sliderShow.innerHTML = '';
-    sliderShow.append(extraContainer);
-    sliderShow.append(mainContainer);
-  } else if (animationType === 'left') {
-    sliderShow.innerHTML = '';
-    sliderShow.append(mainContainer);
-    sliderShow.append(extraContainer);
-  }
+    const divEl_2 = document.createElement('div');
+    divEl_2.classList.add('flex-1', 'min-w-0');
+
+    const pEl_1 = document.createElement('p');
+    pEl_1.classList.add('text-md', 'font-medium', 'text-gray-900', 'truncate');
+    pEl_1.innerText = battery.batteryName;
+
+    const pEl_2 = document.createElement('p');
+    pEl_2.classList.add('inline-flex', 'items-center', 'text-base', 'font-semibold', 'text-gray-900');
+    pEl_2.innerText = `Estimate ${estimatedTime} hours`;
+
+    divEl_2.append(pEl_1);
+    divEl_1.append(divEl_2);
+    divEl_1.append(pEl_2);
+    liEl.append(divEl_1);
+
+    batteriesContainer.append(liEl);
+  });
 }
 
-leftBtn.addEventListener('click', function () {
-  slideJump(-1, 'left');
+/**
+ * @param {number} totalConsumptionPower
+ * @returns arranged batteries Array
+ */
+function arrangeBatteries(totalConsumptionPower) {
+  return batteries.filter((battery) => {
+    let maxConsumptionPower = battery.maxDraw * battery.endVoltage;
+    return totalConsumptionPower < maxConsumptionPower;
+  });
+}
+
+brand.addEventListener('change', (e) => {
+  createModelFieldFromBrand(e.target.value);
 });
 
-rightBtn.addEventListener('click', function () {
-  slideJump(+1, 'right');
+model.addEventListener('change', (e) => {
+  selectedModel = arrangedCameras.filter((camera) => camera.model === e.target.value)[0];
+  cameraPower = parseFloat(selectedModel.powerConsumptionWh);
+  totalConsumptionPower = accessoryPower + cameraPower;
+
+  arrangedBatteries = arrangeBatteries(totalConsumptionPower);
+  createBatteriesView(arrangedBatteries);
+
+  //DEBUG console.log(arrangedBatteries);
 });
+
+power.addEventListener('change', (e) => {
+  accessoryPower = parseFloat(e.target.value);
+  totalConsumptionPower = accessoryPower + cameraPower;
+
+  arrangedBatteries = arrangeBatteries(totalConsumptionPower);
+  createBatteriesView(arrangedBatteries);
+
+  //DEBUG console.log(arrangedBatteries);
+});
+
+/**
+ * 初期化
+ */
+function init() {
+  accessoryPower = parseFloat(document.getElementById('js-power').value);
+  createModelFieldFromBrand('Cakon');
+}
+
+init();
