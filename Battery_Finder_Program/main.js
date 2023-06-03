@@ -198,7 +198,7 @@ function createModelFieldFromBrand(brand) {
 function createBatteriesView(arrangedBatteries) {
   batteriesContainer.innerHTML = '';
   arrangedBatteries.forEach((battery) => {
-    let estimatedTime = Math.floor((battery.voltage * battery.capacityAh * 10) / totalConsumptionPower) / 10;
+    let estimatedTime = Math.round((battery.voltage * battery.capacityAh * 10) / totalConsumptionPower) / 10;
 
     const liEl = document.createElement('li');
     liEl.classList.add('py-3', 'sm:py-4');
@@ -215,7 +215,7 @@ function createBatteriesView(arrangedBatteries) {
 
     const pEl_2 = document.createElement('p');
     pEl_2.classList.add('inline-flex', 'items-center', 'text-base', 'font-semibold', 'text-gray-900');
-    pEl_2.innerText = `Estimate ${estimatedTime} hours`;
+    pEl_2.innerText = `Estimate ${estimatedTime.toFixed(1)} hours`;
 
     divEl_2.append(pEl_1);
     divEl_1.append(divEl_2);
